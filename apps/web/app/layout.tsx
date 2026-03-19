@@ -1,15 +1,43 @@
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
+import type { Metadata } from "next"
+import { DM_Sans, Space_Mono } from "next/font/google"
+import { NuqsAdapter } from "nuqs/adapters/next/app"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@workspace/ui/lib/utils";
+import { ThemeToggle } from "@/components/theme-toggle"
+import { cn } from "@workspace/ui/lib/utils"
 
-const fontSans = Geist({
+const fontSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
 })
 
-const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-mono'})
+const fontMono = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+})
+
+export const metadata: Metadata = {
+  title: {
+    default: "Rabbit Orders",
+    template: "%s | Rabbit Orders",
+  },
+  description:
+    "Manage and track customer orders — Rabbit, your household reliable friend.",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
+  ),
+  openGraph: {
+    title: "Rabbit Orders",
+    description:
+      "Manage and track customer orders — Rabbit, your household reliable friend.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+}
 
 export default function RootLayout({
   children,
@@ -20,10 +48,22 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontSans.variable, "font-mono", jetbrainsMono.variable)}
+      className={cn(
+        "antialiased",
+        fontSans.variable,
+        "font-mono",
+        fontMono.variable
+      )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider>
+            <div className="fixed end-4 top-4 z-50">
+              <ThemeToggle />
+            </div>
+            {children}
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   )
