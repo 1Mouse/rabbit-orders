@@ -30,8 +30,6 @@ export function DataTable<T, TQueryParsers extends DataTableQueryParsers>({
   getRowId,
   entityName,
 }: DataTableProps<T, TQueryParsers>) {
-  // TanStack Table's hook is the intended integration point for this component.
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: data.data,
     columns,
@@ -40,9 +38,7 @@ export function DataTable<T, TQueryParsers extends DataTableQueryParsers>({
     manualSorting: true,
     manualFiltering: true,
     pageCount: data.totalPages,
-    getRowId: getRowId
-      ? (row) => getRowId(row)
-      : undefined,
+    getRowId: getRowId ? (row) => getRowId(row) : undefined,
     state: {
       pagination: {
         pageIndex: data.page - 1,
@@ -77,7 +73,7 @@ export function DataTable<T, TQueryParsers extends DataTableQueryParsers>({
                     {headerGroup.headers.map((header) => (
                       <TableHead
                         key={header.id}
-                        className="text-xs font-bold uppercase tracking-wider"
+                        className="text-xs font-bold tracking-wider uppercase"
                       >
                         {header.isPlaceholder
                           ? null
