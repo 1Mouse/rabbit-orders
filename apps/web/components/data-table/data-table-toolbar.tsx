@@ -22,7 +22,7 @@ type QueryUpdates<TQueryParsers extends DataTableQueryParsers> = Partial<
   Nullable<inferParserType<TQueryParsers>>
 >
 
-const SEARCH_URL_DEBOUNCE = debounce(300)
+const SEARCH_URL_DEBOUNCE = debounce(500)
 
 interface DataTableToolbarProps<TQueryParsers extends DataTableQueryParsers> {
   config: ToolbarConfig<Extract<keyof TQueryParsers, string>>
