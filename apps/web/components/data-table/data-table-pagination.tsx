@@ -54,9 +54,9 @@ export function DataTablePagination<
 
   const goToPage = useCallback(
     (page: number) => {
-      setParams(
-        { page: page <= 1 ? 1 : page } as unknown as QueryUpdates<TQueryParsers>
-      )
+      setParams({
+        page: page <= 1 ? 1 : page,
+      } as unknown as QueryUpdates<TQueryParsers>)
     },
     [setParams]
   )
@@ -72,8 +72,7 @@ export function DataTablePagination<
         <span className="font-bold text-foreground">
           {start}-{end}
         </span>{" "}
-        of{" "}
-        <span className="font-bold text-foreground">{total}</span>{" "}
+        of <span className="font-bold text-foreground">{total}</span>{" "}
         {entityName}
       </p>
       <div className="flex gap-1">

@@ -1,9 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import type { ReactNode } from "react"
-import type {
-  ParserWithOptionalDefault,
-  UseQueryStatesKeysMap,
-} from "nuqs"
+import type { ParserWithOptionalDefault, UseQueryStatesKeysMap } from "nuqs"
 
 import type { PaginatedResponse } from "@/types/pagination"
 export type { PaginatedResponse } from "@/types/pagination"

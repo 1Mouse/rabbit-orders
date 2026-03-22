@@ -9,10 +9,7 @@ interface OrderMobileCardProps {
   index: number
 }
 
-export function OrderMobileCard({
-  order,
-  index,
-}: OrderMobileCardProps) {
+export function OrderMobileCard({ order, index }: OrderMobileCardProps) {
   return (
     <div
       className={cn(

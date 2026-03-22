@@ -11,7 +11,9 @@ export function listOrders(
   let filteredOrders = allOrders
 
   if (query.status) {
-    filteredOrders = filteredOrders.filter((order) => order.status === query.status)
+    filteredOrders = filteredOrders.filter(
+      (order) => order.status === query.status
+    )
   }
 
   if (query.search) {

@@ -30,7 +30,9 @@ export type OrderListQuery = inferParserType<OrderListQueryParsers>
 
 const loadOrderListQueryInput = createLoader(orderListQueryParsers)
 
-export function normalizeOrderListQuery(params: OrderListQuery): OrderListQuery {
+export function normalizeOrderListQuery(
+  params: OrderListQuery
+): OrderListQuery {
   return {
     ...params,
     page: normalizePositiveInteger(params.page, DEFAULT_ORDER_PAGE),

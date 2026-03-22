@@ -1,8 +1,12 @@
 "use client"
 
-import { useRef, useEffect } from "react"
-import { useQueryStates, type Nullable, type inferParserType } from "nuqs"
-import { MagnifyingGlass, Funnel } from "@phosphor-icons/react"
+import {
+  debounce,
+  useQueryStates,
+  type Nullable,
+  type inferParserType,
+} from "nuqs"
+import { MagnifyingGlassIcon, FunnelIcon } from "@phosphor-icons/react"
 import { Input } from "@workspace/ui/components/input"
 import {
   Select,
@@ -18,6 +22,8 @@ type QueryUpdates<TQueryParsers extends DataTableQueryParsers> = Partial<
   Nullable<inferParserType<TQueryParsers>>
 >
 
+const SEARCH_URL_DEBOUNCE = debounce(300)
+
 interface DataTableToolbarProps<TQueryParsers extends DataTableQueryParsers> {
   config: ToolbarConfig<Extract<keyof TQueryParsers, string>>
   queryParsers: TQueryParsers
@@ -31,32 +37,19 @@ export function DataTableToolbar<TQueryParsers extends DataTableQueryParsers>({
     shallow: false,
   })
 
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const searchConfig = config.search
   const sortConfig = config.sort
   const searchKey = searchConfig?.paramKey
   const searchParam = searchKey ? params[searchKey] : undefined
-  const searchDefaultValue = typeof searchParam === "string" ? searchParam : ""
-
-  useEffect(() => {
-    return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current)
-      }
-    }
-  }, [])
+  const searchValue = typeof searchParam === "string" ? searchParam : ""
 
   function handleSearch(
     paramKey: Extract<keyof TQueryParsers, string>,
     value: string
   ) {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current)
-    }
-
-    debounceRef.current = setTimeout(() => {
-      setParams(createPageResetUpdate(paramKey, value || null))
-    }, 300)
+    setParams(createPageResetUpdate(paramKey, value || null), {
+      limitUrlUpdates: SEARCH_URL_DEBOUNCE,
+    })
   }
 
   function handleFilterChange(
@@ -80,18 +73,9 @@ export function DataTableToolbar<TQueryParsers extends DataTableQueryParsers>({
   }
 
   const activeSortOption = sortConfig
-    ? (() => {
-        const currentValue = params[sortConfig.paramKey]
-        const selectedValue =
-          typeof currentValue === "string"
-            ? currentValue
-            : sortConfig.options[0]!.value
-
-        return (
-          sortConfig.options.find((option) => option.value === selectedValue) ??
-          sortConfig.options[0]!
-        )
-      })()
+    ? (sortConfig.options.find(
+        (option) => option.value === params[sortConfig.paramKey]
+      ) ?? sortConfig.options[0]!)
     : null
 
   return (
@@ -99,11 +83,10 @@ export function DataTableToolbar<TQueryParsers extends DataTableQueryParsers>({
       <div className="flex flex-1 gap-3">
         {searchConfig && (
           <div className="relative max-w-sm flex-1">
-            <MagnifyingGlass className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+            <MagnifyingGlassIcon className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              key={searchDefaultValue}
               placeholder={searchConfig.placeholder}
-              defaultValue={searchDefaultValue}
+              value={searchValue}
               onChange={(event) =>
                 handleSearch(searchConfig.paramKey, event.target.value)
               }
@@ -126,7 +109,7 @@ export function DataTableToolbar<TQueryParsers extends DataTableQueryParsers>({
             }
           >
             <SelectTrigger className="w-[160px]">
-              <Funnel className="mr-1 size-4" />
+              <FunnelIcon className="mr-1 size-4" />
               <SelectValue placeholder={filter.label} />
             </SelectTrigger>
             <SelectContent>
@@ -148,7 +131,11 @@ export function DataTableToolbar<TQueryParsers extends DataTableQueryParsers>({
           onClick={() => {
             const sortKey = sortConfig.paramKey
 
-            handleSortChange(sortKey, activeSortOption.value, sortConfig.options)
+            handleSortChange(
+              sortKey,
+              activeSortOption.value,
+              sortConfig.options
+            )
           }}
           className="gap-1.5"
         >
