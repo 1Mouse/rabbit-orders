@@ -4,6 +4,7 @@ import { DM_Sans, Space_Mono } from "next/font/google"
 import "@workspace/ui/globals.css"
 import { AppProviders } from "@/providers"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { env } from "@/env"
 import { cn } from "@workspace/ui/lib/utils"
 
 const fontSans = DM_Sans({
@@ -24,9 +25,7 @@ export const metadata: Metadata = {
   },
   description:
     "Manage and track customer orders — Rabbit, your household reliable friend.",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
-  ),
+  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
   openGraph: {
     title: "Rabbit Orders",
     description:
