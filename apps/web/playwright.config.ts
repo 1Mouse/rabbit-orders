@@ -8,8 +8,8 @@ const webServer = process.env.PLAYWRIGHT_BASE_URL
   ? undefined
   : {
       command: isCI
-        ? `pnpm build && pnpm start -- --hostname 127.0.0.1 --port ${appPort}`
-        : `pnpm dev`,
+        ? `pnpm build && pnpm start --hostname localhost --port ${appPort}`
+        : `pnpm dev --hostname localhost --port ${appPort}`,
       url: baseURL,
       reuseExistingServer: !isCI,
       timeout: 120_000,
