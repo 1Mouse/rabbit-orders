@@ -2,6 +2,13 @@
 
 A responsive order management interface built with Next.js 16, featuring a data table with search, filtering, sorting, pagination, and a mobile-optimized card layout. Includes light/dark mode support.
 
+UI is accurately crafted to match rabbit identity with a modern neo-brutalism design.
+
+**Live Demo:** [rabbit-orders-web.vercel.app](https://rabbit-orders-web.vercel.app/)
+
+![Rabbit Orders screenshot](./Screenshot_20260322_205347.png)
+![Rabbit Orders mobile screenshot](./Screenshot_20260322_205727.png)
+
 ## Getting Started
 
 ```bash
@@ -60,23 +67,23 @@ order-listing/
 
 ### Core Requirements
 
-| Requirement | Implementation |
-|---|---|
-| Order table with ID, Customer, Status, Items, Created At | `order-table-columns.tsx` with TanStack Table |
-| Status filter dropdown | `data-table-toolbar.tsx` with status selector |
-| Responsive design | Desktop table + mobile card layout (`order-mobile-card.tsx`) |
-| Static mock data source | `mock-orders.ts` generates 118 deterministic orders |
-| Alternating row colors | Striped rows via `index % 2` conditional styling |
-| Empty state message | `data-table-empty-state.tsx` — "No orders found" |
-| Clean, maintainable code | Feature modules, typed props, no `any` leaks |
+| Requirement                                              | Implementation                                               |
+| -------------------------------------------------------- | ------------------------------------------------------------ |
+| Order table with ID, Customer, Status, Items, Created At | `order-table-columns.tsx` with TanStack Table                |
+| Status filter dropdown                                   | `data-table-toolbar.tsx` with status selector                |
+| Responsive design                                        | Desktop table + mobile card layout (`order-mobile-card.tsx`) |
+| Static mock data source                                  | `mock-orders.ts` generates 118 deterministic orders          |
+| Alternating row colors                                   | Striped rows via `index % 2` conditional styling             |
+| Empty state message                                      | `data-table-empty-state.tsx` — "No orders found"             |
+| Clean, maintainable code                                 | Feature modules, typed props, no `any` leaks                 |
 
 ### Bonus Features
 
-| Feature | Implementation |
-|---|---|
-| Search by name or ID | Debounced search input (500ms) in toolbar |
-| Sort by date | Toggle button cycling between "Newest first" / "Oldest first" |
-| Light/dark mode | `ThemeToggle` component using `next-themes` |
+| Feature              | Implementation                                                |
+| -------------------- | ------------------------------------------------------------- |
+| Search by name or ID | Debounced search input (500ms) in toolbar                     |
+| Sort by date         | Toggle button cycling between "Newest first" / "Oldest first" |
+| Light/dark mode      | `ThemeToggle` component using `next-themes`                   |
 
 ### Additional Enhancements
 
@@ -84,20 +91,23 @@ order-listing/
 - **Type-safe environment variables** — `@t3-oss/env-nextjs` with Zod validation
 - **Shared UI library** — `@workspace/ui` package with Base UI + CVA components
 - **Mobile card layout** — Responsive cards below `md` breakpoint, table above
+- **SEO & Social sharing** — Full OpenGraph and Twitter Card meta tags with a dynamically generated OG image (`opengraph-image.tsx`) rendered at the edge using `next/og`
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router, React 19) |
-| Language | TypeScript 5.9 |
-| Styling | Tailwind CSS 4 |
-| UI Components | Base UI + Class Variance Authority |
-| Data Table | TanStack React Table v8 |
-| URL State | nuqs v2 |
-| Theme | next-themes |
-| Env Validation | @t3-oss/env-nextjs + Zod |
-| Build System | Turborepo + pnpm workspaces |
+| Layer          | Technology                         |
+| -------------- | ---------------------------------- |
+| Framework      | Next.js 16 (App Router, React 19)  |
+| Language       | TypeScript 5.9                     |
+| Styling        | Tailwind CSS 4                     |
+| UI Components  | Base UI + Class Variance Authority |
+| Data Table     | TanStack React Table v8            |
+| URL State      | nuqs v2                            |
+| Theme          | next-themes                        |
+| Env Validation | @t3-oss/env-nextjs + Zod           |
+| Build System   | Turborepo + pnpm workspaces        |
+| CI             | GitHub Actions                     |
+| Deployment     | Vercel                             |
 
 ## Quality Standards
 
@@ -114,6 +124,15 @@ order-listing/
 - Shared UI components live in a separate workspace package
 - Data table system is config-driven and entity-agnostic
 - Formatters are pure functions extracted for testability
+
+### CI/CD
+
+**GitHub Actions** (`.github/workflows/ci.yml`) runs on every push to `main` and on pull requests:
+
+1. **checks** job — lint, typecheck, and unit/component tests
+2. **e2e** job (depends on checks) — builds the app, installs Chromium, runs Playwright tests. On failure, uploads Playwright report and test results as artifacts.
+
+**Vercel** handles production deployments automatically on push to `main`, with preview deployments for pull requests.
 
 ### Linting & Formatting
 
@@ -136,21 +155,21 @@ pnpm test          # Run all unit + component tests (single run)
 pnpm test:watch    # Watch mode for development
 ```
 
-| Test File | What It Covers | Tests |
-|---|---|---|
-| `query-state.test.ts` | `normalizeOrderListQuery` — page clamping, pageSize bounds, search trimming | 8 |
-| `order-formatters.test.ts` | `formatOrderDate` locale formatting, `formatOrderItemsSummary` truncation | 5 |
-| `list-orders.test.ts` | `listOrders` — filtering by status/search, sorting asc/desc, pagination, edge cases | 10 |
+| Test File                  | What It Covers                                                                      | Tests |
+| -------------------------- | ----------------------------------------------------------------------------------- | ----- |
+| `query-state.test.ts`      | `normalizeOrderListQuery` — page clamping, pageSize bounds, search trimming         | 8     |
+| `order-formatters.test.ts` | `formatOrderDate` locale formatting, `formatOrderItemsSummary` truncation           | 5     |
+| `list-orders.test.ts`      | `listOrders` — filtering by status/search, sorting asc/desc, pagination, edge cases | 10    |
 
 ### Component Tests (Vitest + React Testing Library)
 
 Render tests verifying component behavior through the DOM:
 
-| Test File | What It Covers | Tests |
-|---|---|---|
-| `order-status-badge.test.tsx` | Renders correct text for all 4 statuses | 4 |
-| `data-table-empty-state.test.tsx` | Renders title, description, and icon from config | 1 |
-| `data-table-pagination.test.tsx` | Page buttons, disabled states, navigation calls, entity name | 6 |
+| Test File                         | What It Covers                                               | Tests |
+| --------------------------------- | ------------------------------------------------------------ | ----- |
+| `order-status-badge.test.tsx`     | Renders correct text for all 4 statuses                      | 4     |
+| `data-table-empty-state.test.tsx` | Renders title, description, and icon from config             | 1     |
+| `data-table-pagination.test.tsx`  | Page buttons, disabled states, navigation calls, entity name | 6     |
 
 ### E2E Tests (Playwright)
 
@@ -161,14 +180,14 @@ pnpm test:e2e      # Headless Chromium
 pnpm test:e2e:ui   # Interactive Playwright UI
 ```
 
-| Test | What It Verifies |
-|---|---|
-| Loads and displays orders table | Page renders, heading visible, table rows present |
-| Search filters results | Typing a non-match shows empty state |
-| Search clears and restores | Clearing input brings back the full table |
-| Status filter narrows results | Selecting "New" shows only New-status badges |
-| Sort toggles | Button cycles between "Newest first" / "Oldest first" |
-| Pagination navigates | Clicking page 2 updates URL and content |
+| Test                            | What It Verifies                                      |
+| ------------------------------- | ----------------------------------------------------- |
+| Loads and displays orders table | Page renders, heading visible, table rows present     |
+| Search filters results          | Typing a non-match shows empty state                  |
+| Search clears and restores      | Clearing input brings back the full table             |
+| Status filter narrows results   | Selecting "New" shows only New-status badges          |
+| Sort toggles                    | Button cycles between "Newest first" / "Oldest first" |
+| Pagination navigates            | Clicking page 2 updates URL and content               |
 
 ### Running All Tests
 
