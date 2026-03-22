@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import type { SearchParams } from "nuqs/server"
 
 import { loadOrderListQuery } from "@/features/orders/query-state"
 import { listOrders } from "@/features/orders/server/list-orders"
@@ -9,12 +8,8 @@ export const metadata: Metadata = {
   title: "Orders",
 }
 
-interface PageProps {
-  searchParams: Promise<SearchParams>
-}
-
-export default async function OrdersPage({ searchParams }: PageProps) {
-  const query = await loadOrderListQuery(searchParams)
+export default async function OrdersPage(props: PageProps<"/orders">) {
+  const query = await loadOrderListQuery(props.searchParams)
   const data = listOrders(query)
 
   return (
