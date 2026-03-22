@@ -1,9 +1,8 @@
 import type { Metadata } from "next"
 import { DM_Sans, Space_Mono } from "next/font/google"
-import { NuqsAdapter } from "nuqs/adapters/next/app"
 
 import "@workspace/ui/globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { AppProviders } from "@/providers"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -56,14 +55,12 @@ export default function RootLayout({
       )}
     >
       <body>
-        <NuqsAdapter>
-          <ThemeProvider>
-            <div className="fixed end-4 top-4 z-50">
-              <ThemeToggle />
-            </div>
-            {children}
-          </ThemeProvider>
-        </NuqsAdapter>
+        <AppProviders>
+          <div className="fixed end-4 top-4 z-50">
+            <ThemeToggle />
+          </div>
+          {children}
+        </AppProviders>
       </body>
     </html>
   )
