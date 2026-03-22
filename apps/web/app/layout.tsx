@@ -7,6 +7,8 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { env } from "@/env"
 import { cn } from "@workspace/ui/lib/utils"
 
+const siteImagePath = "/assets/rabbit-logo.png"
+
 const fontSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -31,9 +33,16 @@ export const metadata: Metadata = {
     description:
       "Manage and track customer orders — Rabbit, your household reliable friend.",
     type: "website",
+    images: [
+      {
+        url: siteImagePath,
+        alt: "Rabbit Orders logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    images: [siteImagePath],
   },
 }
 
