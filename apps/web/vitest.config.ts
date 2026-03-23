@@ -7,7 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@/": path.resolve(import.meta.dirname, "./") + "/",
-      "@workspace/ui/": path.resolve(import.meta.dirname, "../../packages/ui/src/") + "/",
+      "@workspace/ui/":
+        path.resolve(import.meta.dirname, "../../packages/ui/src/") + "/",
     },
   },
   test: {

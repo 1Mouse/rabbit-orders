@@ -28,7 +28,13 @@ describe("formatOrderItemsSummary", () => {
 
   it("truncates many items showing correct count", () => {
     expect(
-      formatOrderItemsSummary(["Apple", "Banana", "Cherry", "Date", "Elderberry"])
+      formatOrderItemsSummary([
+        "Apple",
+        "Banana",
+        "Cherry",
+        "Date",
+        "Elderberry",
+      ])
     ).toBe("Apple, Banana +3 more")
   })
 

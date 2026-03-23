@@ -48,7 +48,7 @@ export function DataTable<T, TQueryParsers extends DataTableQueryParsers>({
   })
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4" data-testid="data-table">
       <DataTableToolbar config={toolbarConfig} queryParsers={queryParsers} />
 
       {data.data.length === 0 ? (
@@ -90,6 +90,7 @@ export function DataTable<T, TQueryParsers extends DataTableQueryParsers>({
                 {table.getRowModel().rows.map((row, index) => (
                   <TableRow
                     key={row.id}
+                    data-testid={`data-table-row-${row.id}`}
                     className={cn(
                       "border-b border-border transition-colors hover:bg-secondary/20",
                       index % 2 === 1 && "bg-muted/40"
@@ -110,7 +111,10 @@ export function DataTable<T, TQueryParsers extends DataTableQueryParsers>({
           </div>
 
           {mobileCard && (
-            <div className="flex flex-col gap-3 md:hidden">
+            <div
+              className="flex flex-col gap-3 md:hidden"
+              data-testid="mobile-card-container"
+            >
               {data.data.map((item, index) => (
                 <Fragment key={getRowId?.(item) ?? index}>
                   {mobileCard(item, index)}

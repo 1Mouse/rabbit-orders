@@ -67,8 +67,14 @@ export function DataTablePagination<
   const end = Math.min(page * pageSize, total)
 
   return (
-    <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-      <p className="text-sm text-muted-foreground">
+    <div
+      className="flex flex-col items-center justify-between gap-3 sm:flex-row"
+      data-testid="pagination"
+    >
+      <p
+        className="text-sm text-muted-foreground"
+        data-testid="pagination-info"
+      >
         Showing{" "}
         <span className="font-bold text-foreground">
           {start}-{end}
@@ -82,6 +88,7 @@ export function DataTablePagination<
           size="icon-sm"
           disabled={page <= 1}
           onClick={() => goToPage(page - 1)}
+          data-testid="pagination-prev"
         >
           <CaretLeft className="size-4" />
         </Button>
@@ -100,6 +107,7 @@ export function DataTablePagination<
               size="icon-sm"
               onClick={() => goToPage(p)}
               className={cn("text-xs", p === page && "pointer-events-none")}
+              data-testid={`pagination-page-${p}`}
             >
               {p}
             </Button>
@@ -110,6 +118,7 @@ export function DataTablePagination<
           size="icon-sm"
           disabled={page >= totalPages}
           onClick={() => goToPage(page + 1)}
+          data-testid="pagination-next"
         >
           <CaretRight className="size-4" />
         </Button>

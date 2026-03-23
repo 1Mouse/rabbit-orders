@@ -12,6 +12,7 @@ interface OrderMobileCardProps {
 export function OrderMobileCard({ order, index }: OrderMobileCardProps) {
   return (
     <div
+      data-testid={`mobile-card-${order.id}`}
       className={cn(
         "border-2 border-border p-4 shadow-sm",
         index % 2 === 1 && "bg-muted/50"

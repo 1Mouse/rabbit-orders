@@ -51,7 +51,13 @@ describe("normalizeOrderListQuery", () => {
   })
 
   it("preserves valid values unchanged", () => {
-    const input = { ...defaults, page: 3, pageSize: 25, search: "test", status: "New" as const }
+    const input = {
+      ...defaults,
+      page: 3,
+      pageSize: 25,
+      search: "test",
+      status: "New" as const,
+    }
     const result = normalizeOrderListQuery(input)
     expect(result).toEqual(input)
   })

@@ -17,7 +17,11 @@ interface OrderStatusBadgeProps {
 
 export function OrderStatusBadge({ status }: OrderStatusBadgeProps) {
   return (
-    <Badge variant="outline" className={cn("font-bold", statusStyles[status])}>
+    <Badge
+      variant="outline"
+      className={cn("font-bold", statusStyles[status])}
+      data-testid="order-status-badge"
+    >
       {status}
     </Badge>
   )

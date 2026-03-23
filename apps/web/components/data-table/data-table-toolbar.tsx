@@ -91,6 +91,7 @@ export function DataTableToolbar<TQueryParsers extends DataTableQueryParsers>({
                 handleSearch(searchConfig.paramKey, event.target.value)
               }
               className="pl-9"
+              data-testid="search-input"
             />
           </div>
         )}
@@ -108,7 +109,10 @@ export function DataTableToolbar<TQueryParsers extends DataTableQueryParsers>({
               handleFilterChange(filter.paramKey, value)
             }
           >
-            <SelectTrigger className="w-[160px]">
+            <SelectTrigger
+              className="w-[160px]"
+              data-testid={`filter-${filter.paramKey}`}
+            >
               <FunnelIcon className="mr-1 size-4" />
               <SelectValue placeholder={filter.label} />
             </SelectTrigger>
@@ -138,6 +142,7 @@ export function DataTableToolbar<TQueryParsers extends DataTableQueryParsers>({
             )
           }}
           className="gap-1.5"
+          data-testid="sort-button"
         >
           <>
             {activeSortOption.icon}
