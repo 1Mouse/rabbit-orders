@@ -33,6 +33,9 @@ dist
 # Debug
 npm-debug.log*
 
+# Lefthook
+lefthook-local.yml
+
 # Misc
 .DS_Store
 *.pem
