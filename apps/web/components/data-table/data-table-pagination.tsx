@@ -57,6 +57,7 @@ export function DataTablePagination<
       setParams({
         page: page <= 1 ? 1 : page,
       } as unknown as QueryUpdates<TQueryParsers>)
+      window.scrollTo({ top: 0, behavior: "smooth" })
     },
     [setParams]
   )
